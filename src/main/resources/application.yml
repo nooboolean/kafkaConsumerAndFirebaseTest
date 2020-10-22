@@ -1,0 +1,10 @@
+spring:
+  kafka:
+    bootstrap-servers: home-nakazaway.com:9092
+    template:
+      default-topic: test
+    consumer:
+      group-id: test
+  firebase:
+    credential: classpath:/config/kafkaConsumerAndFirebaseTest.json
+    database: https://kafkatest-511d8.firebaseio.com
