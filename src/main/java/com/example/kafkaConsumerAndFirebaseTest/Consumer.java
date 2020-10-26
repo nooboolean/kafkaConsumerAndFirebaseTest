@@ -1,20 +1,27 @@
 package com.example.kafkaConsumerAndFirebaseTest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.example.kafkaConsumerAndFirebaseTest.service.FirebaseMessagingService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import java.lang.invoke.MethodHandles;
 
 @Service
+@Slf4j
 public class Consumer {
 
-    private static final Logger log = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private final FirebaseMessagingService service;
+
+    @Autowired
+    public Consumer(FirebaseMessagingService service) {
+        this.service = service;
+    }
 
     @KafkaListener(topics = "kafkaTest", groupId = "test")
     public void consumer(String message){
         log.info("receivedMessage: #{}", message);
+        this.service.run(message);
     }
 
 }

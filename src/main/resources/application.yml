@@ -6,5 +6,5 @@ spring:
     consumer:
       group-id: test
   firebase:
-    credential: classpath:/config/kafkaConsumerAndFirebaseTest.json
+    credential: src/main/resources/config/kafkaConsumerAndFirebaseTest.json
     database: https://kafkatest-511d8.firebaseio.com
