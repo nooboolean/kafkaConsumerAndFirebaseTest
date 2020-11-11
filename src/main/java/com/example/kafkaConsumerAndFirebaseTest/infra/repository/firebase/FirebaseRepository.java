@@ -1,6 +1,7 @@
-package com.example.kafkaConsumerAndFirebaseTest.infra.repository;
+package com.example.kafkaConsumerAndFirebaseTest.infra.repository.firebase;
 
 import com.example.kafkaConsumerAndFirebaseTest.infra.datasource.Firebase;
+import com.example.kafkaConsumerAndFirebaseTest.infra.repository.kafka.entity.PaymentInfoMessage;
 import com.google.firebase.database.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class FirebaseRepository {
         this.firebase = firebase;
     }
 
-    public void insertMessage(String message) {
+    public void insertMessage(PaymentInfoMessage message) {
         DatabaseReference reference = firebase.getDatabaseClient().getReference("sales");
         if (reference == null) {
             throw new RuntimeException();
@@ -26,13 +27,13 @@ public class FirebaseRepository {
                 new Transaction.Handler() {
                     @Override
                     public Transaction.Result doTransaction(MutableData currentData) {
-                        Object salesValue = currentData.getValue();
+                        Object salesValue = currentData.getValue(PaymentInfoMessage.class);
                         if (salesValue == null) {
-                            currentData.setValue(message);
+                            currentData.setValue("message");
                             return Transaction.success(currentData);
                         }
 
-                        currentData.child(message).setValue(message);
+                        currentData.child("message").setValue("message");
                         return Transaction.success(currentData);
                     }
 
